@@ -1,9 +1,18 @@
 <template>
-    <div class="appbar flex-row">
-        <div class="logo flex-row">
+    <div class="appbar flex">
+        <div class="appbar__title flex">
             <h3>Schedule</h3>
             <h1>Editor</h1>
         </div>
+
+        <div class="spacer"></div>
+
+        <img
+            class="appbar__logo"
+            :src="this.$store.state.profile.avatar_url"
+            width="50px"
+            height="50px"
+        />
     </div>
 </template>
 
@@ -11,16 +20,19 @@
 export default {};
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .appbar {
     border-bottom: 1px solid #ececec;
+    align-items: center;
     justify-content: space-between;
     padding: 5px 10px;
-}
-.logo {
-    align-items: flex-start;
-}
-.logo h3 {
-    align-self: flex-end;
+    &__title {
+        h3 {
+            align-self: flex-end;
+        }
+    }
+    &__logo {
+        border-radius: 50%;
+    }
 }
 </style>

@@ -1,28 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
+
+import auth from "./modules/auth";
+import profile from "./modules/profile";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        accessToken: localStorage.getItem("accessToken") || null,
-        serverAddress: "http://localhost:4000/"
+        Vue,
+        server: "http://127.0.0.1:4000/",
+        axios
     },
-    mutations: {
-        setToken(state, accessToken) {
-            state.accessToken = accessToken;
-        }
-    },
-    actions: {
-        login({ commit }, token) {
-            // TODO: checking token is valid
-            localStorage.setItem("accessToken", token);
-            commit("setToken", token);
-        },
-        logout({ commit }) {
-            localStorage.removeItem("accessToken");
-            commit("setToken", null);
-        }
-    },
-    modules: {}
+    modules: {
+        auth,
+        profile
+    }
 });

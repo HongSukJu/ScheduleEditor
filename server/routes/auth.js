@@ -4,53 +4,61 @@ const qs = require("querystring");
 const rs = require("randomstring");
 const axios = require("axios");
 
-let state;
-
 router.get("/github", (req, res) => {
-    state = rs.generate();
-
     const url = "https://github.com/login/oauth/authorize?";
     const query = qs.stringify({
         client_id: process.env.GITHUB_CLIENT_ID,
         redirect_uri: process.env.GITHUB_CLIENT_REDIRECT_URI,
-        state: state,
-        score: "user:email",
     });
 
-    const githubAuthUrl = url + query;
+    const getCodeUrl = url + query;
 
     res.json({
-        url: githubAuthUrl,
+        url: getCodeUrl,
     });
 });
 
 router.get("/github/callback", (req, res) => {
-    const {code: returnCode, state: returnState} = req.query;
+    const {code} = req.query;
 
-    if (state != returnState) {
-        res.json({
-            status: 500,
-            message: "State is incorrect.",
-        });
-    }
     const url = "https://github.com/login/oauth/access_token?";
     const query = qs.stringify({
         client_id: process.env.GITHUB_CLIENT_ID,
         client_secret: process.env.GITHUB_CLIENT_SECRET,
-        code: returnCode,
+        code,
         redirect_uri: process.env.GITHUB_CLIENT_REDIRECT_URI,
-        state: state,
     });
 
-    const githubAuthUrl = url + query;
+    const getTokenUrl = url + query;
 
     axios
-        .post(githubAuthUrl, null, {
-            headers: { Accept: "application/json" },
+        .post(getTokenUrl, {}, {
+            headers: {Accept: "application/json"},
         })
-        .then((postRes) => {
-            const token = postRes.data.access_token;
-            res.redirect("/?token=" + token);
+        .then((axiosRes) => {
+            const {access_token} = axiosRes.data;
+            res.cookie("access_token", access_token, {
+                maxAge: 1000 * 60 * 60,
+            });
+            res.json({
+                access_token,
+            });
+        });
+});
+
+router.get("/github/user", (req, res) => {
+    const { access_token } = req.query;
+
+    const url = "https://api.github.com/user";
+
+    axios
+        .get(url, {
+            headers: {Authorization: `token ${access_token}`},
+        })
+        .then((axiosRes) => {
+            res.json(
+                axiosRes.data
+            );
         });
 });
 

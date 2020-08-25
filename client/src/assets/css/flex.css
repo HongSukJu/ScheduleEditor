@@ -1,4 +1,4 @@
-.flex-row {
+.flex {
     display: flex;
     flex-direction: row;
 }
@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
 }
-.flex-row-reverse {
+.flex-reverse {
     display: flex;
     flex-direction: row-reverse;
 }
@@ -22,4 +22,7 @@
 }
 .flex-grow {
     flex-grow: 1;
+}
+.spacer {
+    flex-grow: 99;
 }

@@ -1,18 +1,14 @@
 <template>
     <div class="login flex-column">
-        <button @click="handleClick">Login with Github</button>
+        <button @click="login">Login with Github</button>
     </div>
 </template>
 
 <script>
 export default {
     methods: {
-        handleClick: function() {
-            this.$http
-                .get(this.$store.state.serverAddress + "auth/github")
-                .then(res => {
-                    window.location.href = res.data.url;
-                });
+        login() {
+            this.$store.dispatch("auth/login");
         }
     }
 };

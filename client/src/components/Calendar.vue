@@ -1,12 +1,13 @@
 <template>
     <div class="calendar flex-column flex-grow">
-        <div class="calendar-controler flex-row">
+        <div class="calendar-controler flex">
             <button @click="preMonth">&#8592;</button>
             <span class="current-month">{{ currentMonth }}</span>
             <button @click="nextMonth">&#8594;</button>
         </div>
+
         <div
-            class="week-box flex-row full-height"
+            class="week-box flex full-height"
             v-for="i in 6"
             :key="i"
             v-show="i !== 6 || expend"
@@ -18,7 +19,7 @@
                 @mouseenter="handleMouseEnter"
                 @mouseleave="handleMouseLeave"
             >
-                <div class="flex-row date-box-header">
+                <div class="flex date-box-header">
                     <div
                         class="date-box-num"
                         :style="color(j, calendar[i - 1][j - 1])"
@@ -142,7 +143,7 @@ export default {
     padding: 10px;
 }
 .calendar-controler {
-    margin-bottom: 20px;
+    margin: 10px 0;
     justify-content: center;
 }
 .calendar-controler span {

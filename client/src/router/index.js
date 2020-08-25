@@ -1,18 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Store from "../store/index.js";
 import Home from "../views/Home.vue";
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
-const checkAuthenticated = () => (from, to, next) => {
-    const token = from.query.token;
-    if (token) {
-        Store.dispatch("login", token);
-        next("/");
+const requireAuth = () => (to, from, next) => {
+    if (Vue.$cookies.isKey("access_token")) {
+        store.dispatch("profile/getProfile");
+        return next();
     }
-
-    if (Store.state.accessToken !== null) return next();
     next("/login");
 };
 
@@ -21,7 +18,7 @@ const routes = [
         path: "/",
         name: "Home",
         component: Home,
-        beforeEnter: checkAuthenticated()
+        beforeEnter: requireAuth()
     },
     {
         path: "/login",
@@ -30,6 +27,14 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import("../views/Login.vue")
+    },
+    {
+        path: "/callback/github",
+        name: "Callback Github",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import("../views/callback/Github.vue")
     }
 ];
 

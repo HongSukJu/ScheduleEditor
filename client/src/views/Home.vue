@@ -1,7 +1,7 @@
 <template>
     <div class="home full-height flex-column">
         <Appbar />
-        <div class="flex-row flex-grow">
+        <div class="flex flex-grow">
             <Sidebar />
             <Calendar />
         </div>

@@ -1,21 +1,18 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const history = require("connect-history-api-fallback");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
-const indexRouter = require("./routes/index.js");
 const authRouter = require("./routes/auth.js");
 
 const app = express();
 app.use(morgan());
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://127.0.0.1:8080' }));
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.static("dist"));
 
 app.use("/auth", authRouter);
-app.use(history());
-app.use("/", indexRouter);
 
 const port = process.env.PORT | 4000;
 app.listen(port, () => {
