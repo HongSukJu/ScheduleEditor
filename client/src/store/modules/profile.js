@@ -21,7 +21,6 @@ export default {
                     state.email = email;
                     state.avatar_url = avatar_url;
                 });
-            console.log(state);
         }
     }
 };

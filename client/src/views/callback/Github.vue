@@ -9,12 +9,11 @@ export default {
     components: {
         Loading
     },
-    created: function() {
-        this.$store
-            .dispatch("auth/loginCallback", this.$route.query.code)
-            .then(() => {
-                this.$router.push("/");
-            });
+    created() {
+        this.$store.dispatch("auth/loginCallback", this.$route.query.code);
+        setTimeout(() => {
+            this.$router.push("/");
+        }, 3000);
     }
 };
 </script>

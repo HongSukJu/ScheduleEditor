@@ -8,13 +8,16 @@ export default {
                 window.location = url;
             });
         },
-        async loginCallback({ rootState }, code) {
+        loginCallback({ rootState }, code) {
             rootState.axios.get(
                 rootState.server + "auth/github/callback?code=" + code,
                 {
                     withCredentials: true
                 }
             );
+        },
+        logout({ rootState }) {
+            rootState.Vue.$cookies.remove("access_token");
         }
     }
 };
