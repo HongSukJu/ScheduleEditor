@@ -8,12 +8,9 @@ export default {
                 window.location = url;
             });
         },
-        loginCallback({ rootState }, code) {
-            rootState.axios.get(
-                rootState.server + "auth/github/callback?code=" + code,
-                {
-                    withCredentials: true
-                }
+        async loginCallback({ rootState }, code) {
+            await rootState.axios.get(
+                rootState.server + "auth/github/callback?code=" + code
             );
         },
         logout({ rootState }) {

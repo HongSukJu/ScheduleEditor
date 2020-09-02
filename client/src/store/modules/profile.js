@@ -6,8 +6,15 @@ export default {
         email: "",
         avatar_url: ""
     },
+    mutations: {
+        setProfile(state, { name, email, avatar_url }) {
+            state.name = name;
+            state.email = email;
+            state.avatar_url = avatar_url;
+        }
+    },
     actions: {
-        getProfile({ state, rootState }) {
+        getProfile({ commit, rootState }) {
             rootState.axios
                 .get(
                     rootState.server +
@@ -15,11 +22,8 @@ export default {
                         rootState.Vue.$cookies.get("access_token")
                 )
                 .then(res => {
-                    const { id, name, email, avatar_url } = res.data;
-                    state.id = id;
-                    state.name = name;
-                    state.email = email;
-                    state.avatar_url = avatar_url;
+                    const { name, email, avatar_url } = res.data;
+                    commit("setProfile", { name, email, avatar_url });
                 });
         }
     }

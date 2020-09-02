@@ -1,23 +1,23 @@
 <template>
-    <div class="login flex-column">
-        <button @click="login">Login with Github</button>
+    <div class="full-height flex-column align-center justify-center">
+        <button class="button is-black" @click="login">
+            Login with Github
+        </button>
     </div>
 </template>
 
 <script>
+import { useActions } from "@u3u/vue-hooks";
+
 export default {
-    methods: {
-        login() {
-            this.$store.dispatch("auth/login");
-        }
+    setup() {
+        const actions = {
+            ...useActions("auth", ["login"])
+        };
+
+        return {
+            ...actions
+        };
     }
 };
 </script>
-
-<style scoped>
-.login {
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-}
-</style>

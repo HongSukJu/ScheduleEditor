@@ -1,13 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import store from "../store/index";
 
 Vue.use(VueRouter);
 
 const requireAuth = () => (to, from, next) => {
     if (Vue.$cookies.isKey("access_token")) {
-        store.dispatch("profile/getProfile");
         return next();
     }
     next("/login");
@@ -26,7 +24,8 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import("../views/Login.vue")
+        component: () =>
+            import(/* webpackChunkName: "login" */ "../views/Login.vue")
     },
     {
         path: "/callback/github",
@@ -34,7 +33,10 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import("../views/callback/Github.vue")
+        component: () =>
+            import(
+                /* webpackChunkName: "github" */ "../views/callback/Github.vue"
+            )
     }
 ];
 
