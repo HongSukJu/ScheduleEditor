@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const dayPointSchema = require("./schedule");
 
 const userSchema = mongoose.Schema({
     name: String,
     email: String,
     avatar_url: String,
-    schdule_items: Object
+    schedule_items: [dayPointSchema]
 });
 
 const userModel = mongoose.model("User", userSchema);

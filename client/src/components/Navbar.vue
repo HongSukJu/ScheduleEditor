@@ -43,8 +43,7 @@ export default {
         });
 
         const actions = {
-            ...useActions("auth", ["logout"]),
-            ...useActions("profile", ["getProfile"])
+            ...useActions("auth", ["logout"])
         };
 
         const logoutAndRouteLoginPage = () => {
@@ -52,8 +51,6 @@ export default {
                 router.push("/login");
             });
         };
-
-        actions.getProfile();
 
         return {
             state,
