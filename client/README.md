@@ -1,4 +1,4 @@
-# Schedule Editor
+# Schedule Editor Client
 
 ## Project setup
 ```
